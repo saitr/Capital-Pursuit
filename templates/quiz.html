@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Guess the Capitals</title>
+</head>
+<body>
+  <div id="quiz-container">
+    <h1>Guess the Capitals</h1>
+    <div id="question">
+      <p id="country-name"></p>
+      <input type="text" id="capital-input" placeholder="Enter capital">
+    </div>
+    <button onclick="submitAnswer()">Submit</button>
+  </div>
+
+  <script>
+    const countries = JSON.parse('{{ countries_json | escapejs }}');
+    let currentQuestion = 0;
+
+    function displayQuestion() {
+      if (currentQuestion < countries.length) {
+        const country = countries[currentQuestion];
+        document.getElementById('country-name').innerText = 'Country: ' + country.name;
+      } else {
+        document.getElementById('country-name').innerText = 'Quiz completed!';
+        document.getElementById('capital-input').disabled = true;
+      }
+    }
+
+    function submitAnswer() {
+      const userAnswer = document.getElementById('capital-input').value.toLowerCase();
+      const country = countries[currentQuestion];
+      const correctAnswer = country.capital.toLowerCase();
+      if (userAnswer === correctAnswer) {
+        alert('Correct answer! The capital is ' + country.capital);
+      } else {
+        alert('Incorrect answer. The capital is ' + country.capital);
+      }
+      nextQuestion();
+    }
+
+    function nextQuestion() {
+      currentQuestion++;
+      document.getElementById('capital-input').value = '';
+      displayQuestion();
+    }
+
+    // Display the first question on page load
+    displayQuestion();
+  </script>
+</body>
+</html>
