@@ -20,23 +20,26 @@ class QuizView(View):
 
         return render(request, 'quiz.html', {'countries_json': json.dumps(countries)})
 
-    def post(self, request):
-        # Retrieve the user's answer from the form submission
-        user_answer = request.POST.get('user_answer', '').strip().lower()
+    # def post(self, request):
+    #     # Retrieve the user's answer from the form submission
+    #     user_answer = request.POST.get('user_answer', '').strip().lower()
         
-        # Retrieve the correct answer and the current question's country
-        country = json.loads(request.POST.get('country'))
-        correct_answer = country['capital'].lower()
+    #     # Retrieve the correct answer and the current question's country
+    #     country = json.loads(request.POST.get('country'))
+    #     correct_answer = country['capital'].lower()
         
-        # Check if the user's answer is correct
-        is_correct = user_answer == correct_answer
+    #     # Check if the user's answer is correct
+    #     is_correct = user_answer == correct_answer
         
-        # Prepare the response data
-        response_data = {
-            'is_correct': is_correct,
-            'correct_answer': country['capital']
-        }
-        # print('this is the response data',response_data)
+    #     # Prepare the response data
+    #     response_data = {
+    #         'is_correct': is_correct,
+    #         'correct_answer': country['capital']
+    #     }
+    #     # print('this is the response data',response_data)
         
-        return JsonResponse(response_data)
+    #     return JsonResponse(response_data)
+
+
+
 
