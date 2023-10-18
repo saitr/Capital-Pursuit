@@ -25,7 +25,7 @@ def signup(request):
                 return render(request, 'signup.html', {'form': form})
 
 
-            when the user register for the first time otp shoul
+            # when the user register for the first time otp shoul
             otp = get_random_string(length=6, allowed_chars='1234567890')
             user = User.objects.create_user(
                 username=username,
