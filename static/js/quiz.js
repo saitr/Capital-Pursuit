@@ -1,6 +1,9 @@
 let currentQuestion = -1;
 let correctAnswers = 0;
 
+
+//////////////////// Function to start the game ////////////////////
+
 function startGame() {
     currentQuestion = -1;
     correctAnswers = 0;
@@ -14,18 +17,19 @@ function startGame() {
     document.querySelector('button[onclick="endGame()"]').style.display = 'block';
     nextQuestion();
 }
+
+///////////// Function to calculate the score //////////////////////////
 function calculateScore() {
-    // Assuming correctAnswers is a variable keeping track of correct answers
     return correctAnswers;
 }
 
-
+// End game 
 function endGame() {
     currentQuestion = countries.length;
     displayQuestion();
-    const score = calculateScore();  // Calculate the actual score
+    const score = calculateScore();  
         document.getElementById('scoreValue').innerText = score;
-        $('#scoreModal').modal('show');  // Show the modal with the score
+        $('#scoreModal').modal('show');
 }
 
 
@@ -38,9 +42,7 @@ function displayQuestion() {
         document.getElementById('country-name').innerText = 'Quiz completed!';
         document.getElementById('capital-input').disabled = true;
         document.getElementById('answer-count').innerText = 'Correct Answers: ' + correctAnswers;
-        // Display the score modal
         $('#scoreModal').modal('show');
-        // Set the score value in the modal
         document.getElementById('scoreValue').innerText = correctAnswers;
     }
 }
@@ -54,7 +56,6 @@ function submitAnswer() {
         correctAnswers++;
         document.getElementById('answer-count').innerText = 'Correct Answers: ' + correctAnswers;
     } else {
-        // If the answer is wrong, display the correct answer in the wrong answer modal
         const wrongAnswerModal = new bootstrap.Modal(document.getElementById('wrongAnswerModal'));
         document.getElementById('correctAnswer').innerText = country.capital;
         wrongAnswerModal.show();

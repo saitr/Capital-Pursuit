@@ -12,7 +12,7 @@ from django.core.mail import send_mail
 from django.contrib.auth.hashers import check_password
 
 # Your imports...
-
+# Signup view 
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -25,7 +25,7 @@ def signup(request):
                 return render(request, 'signup.html', {'form': form})
 
 
-            # when the user register for the first time otp shoul
+            # when the user register for the first time otp should be sent to the mail and the below is the otp variable which generates the otp of 6 digits 
             otp = get_random_string(length=6, allowed_chars='1234567890')
             user = User.objects.create_user(
                 username=username,
@@ -34,7 +34,6 @@ def signup(request):
                 password=form.cleaned_data.get('password')
             )
 
-            # Send email with OTP asynchronously
             subject = 'Your OTP Code'
             context = {'username': user.username, 'otp': otp}
             html_message = render_to_string('otp.html', context)
@@ -45,7 +44,6 @@ def signup(request):
             send_mail(subject, plain_message, from_email, recipient_list, html_message=html_message)
             return redirect('verify', email=email)
         else:
-            # Form is not valid, re-render signup page with errors
             return render(request, 'signup.html', {'form': form})
     else:
         form = SignUpForm()
@@ -67,7 +65,7 @@ def verify(request, email):
                 user.is_logged_in = True
                 user.save()
 
-                # Send thank you email
+                # Sending thank you email after the verification of email
                 subject =  'Welcome To The Family'
                 from_email = settings.DEFAULT_FROM_EMAIL
                 to = [email]
@@ -150,9 +148,6 @@ def signin(request):
 def logout_user(request):
     if request.user.is_authenticated:
         user = request.user
-        # user.token = None
-        # print('thisi sit',user.token)
-        # user.is_logged_in = False
         user.save()
         logout(request)
     return redirect('signin')

@@ -19,5 +19,5 @@ from django.urls import path,include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('country_app.urls'))
+    path('',include('country_app.urls'))  #### all the urls linking to the project 
 ]

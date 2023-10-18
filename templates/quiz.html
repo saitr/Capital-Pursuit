@@ -23,7 +23,7 @@
         </div>
     </div>
 </div>
-    <!-- wrong answer modal  -->
+    <!-- wrong answer modal start this is displayed when the wrong answer is been given  -->
     <div class="modal fade" id="wrongAnswerModal" tabindex="-1" aria-labelledby="wrongAnswerModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
@@ -42,9 +42,9 @@
           </div>
       </div>
   </div>
-  
+<!-- wrong answer end    -->
 
-    <!-- Score Modal -->
+    <!-- Score Modal start  -->
     <div class="modal fade" id="scoreModal" tabindex="-1" aria-labelledby="scoreModalLabel" aria-hidden="true">
       <div class="modal-dialog">
           <div class="modal-content">
@@ -61,6 +61,7 @@
           </div>
       </div>
   </div>
+  <!-- end  -->
     
   <div id="loaderOverlay" class="overlay" style="display: none;">
     <div id="loader" class="text-center d-flex flex-column justify-content-center align-items-center">
@@ -69,7 +70,6 @@
     </div>
 </div>
     
-    <!-- Include Bootstrap JS -->
     
     <script>
        const countries = JSON.parse('{{ countries_json | escapejs }}');
@@ -81,7 +81,6 @@
         const modalFooter = document.querySelector('#scoreModal .modal-footer');
         const sendButton = modalFooter.querySelector('.btn-primary');
 
-        // Hide the send button and show the loader
         sendButton.style.display = 'none';
         loaderOverlay.style.display = 'flex';
 
@@ -96,14 +95,13 @@
         .then(data => {
             if (data.success) {
                 alert('Game report sent via email successfully!');
-                window.location.reload();  // Reload the page
+                window.location.reload();  
             } else {
                 alert('Failed to send game report via email.');
             }
         })
         .catch(error => console.error('Error:', error))
         .finally(() => {
-            // Hide the loader and show the send button again
             sendButton.style.display = 'block';
             loaderOverlay.style.display = 'none';
         });

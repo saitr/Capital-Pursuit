@@ -10,7 +10,7 @@ class Common(models.Model):
     class Meta:
         abstract = True
 
-# User Model 
+############## User Model #######################
 
 class User(AbstractUser):
     username = models.CharField(max_length=150,blank=False,null=False)
@@ -24,6 +24,8 @@ class User(AbstractUser):
         db_table = 'User'
 
 
+
+########## table to store the player scores ################
 class QuizScore(Common):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     score = models.PositiveIntegerField(default=0)

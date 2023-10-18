@@ -8,13 +8,12 @@ body, html {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
- /* Custom Styles for the Modal */
  #scoreModal .modal-dialog {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 100%; /* Adjust the width if needed */
+    width: 100%;
 }
 
 #scoreModal .modal-content {
@@ -47,7 +46,7 @@ img.logo-modal {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 100%; /* Adjust the width if needed */
+    width: 100%; 
 }
 
 #wrongAnswerModal .modal-content {
@@ -114,21 +113,21 @@ img.sad-gif {
     left: 0%;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent dark background */
-    z-index: 9999; /* Ensure it's on top of everything */
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 9999; 
 }
 
 #loader {
-    height: 100vh; /* Ensure the loader takes up the full height of the screen */
+    height: 100vh; 
     color: white;
 }
 
 .loader-image {
-    width: 100px; /* Adjust the width as needed */
+    width: 100px;
     height: auto;
 }
 
-/* Optional: Add margin to the bottom */
+
 #loader .mt-2 {
     margin-bottom: 20px;
 }
