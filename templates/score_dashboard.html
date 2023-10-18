@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<table class="table">
+<!-- <table class="table">
     <thead>
       <tr>
-        <th>Game Number</th>
-        <th>Name</th>
-        <th>Score</th>
+        <th class="w-25">Game Number</th>
+        <th class="w-25">Name</th>
+        <th class="w-25">  Score</th>
       </tr>
     </thead>
     <tbody>
@@ -17,6 +17,27 @@
           <td>{{ score.score }}</td>
         </tr>
       {% endfor %}
+    </tbody>
+  </table> -->
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">First</th>
+        <th scope="col">Last</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tbody>
+            {% for score in user_scores %}
+              <tr>
+                <td>{{ score.id }}</td>
+                <td>{{ score.user.username|upper }}</td>
+                <td>{{ score.score }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
     </tbody>
   </table>
 </div>
