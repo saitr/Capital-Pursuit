@@ -87,4 +87,4 @@ def display_scores(request, user_id):
     # Get all scores for the user
     user_scores = QuizScore.objects.filter(user=user)
 
-    return render(request, 'scores.html', {'user_scores': user_scores})
+    return render(request, 'score_dashboard.html', {'user_scores': user_scores})

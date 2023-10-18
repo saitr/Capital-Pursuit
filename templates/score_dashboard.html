@@ -1,7 +1,25 @@
 {% extends 'base.html' %}
 {% block content %}
 
-
+<table class="table">
+    <thead>
+      <tr>
+        <th>Game Number</th>
+        <th>Name</th>
+        <th>Score</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for score in user_scores %}
+        <tr>
+          <td>{{ score.id }}</td>
+          <td>{{ score.user.username|upper }}</td>
+          <td>{{ score.score }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 
 
 {% endblock %}
