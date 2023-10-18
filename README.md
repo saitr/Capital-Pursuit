@@ -13,4 +13,9 @@ Step3: Run the command <strong>docker ps</strong> <br>
 Step4: Now check for the ports and copy the url that is <strong>http://0.0.0.0:8000/</strong>
 
 ### Manual Installation
-Step1: Clone the repository using the link 
+Step1: Clone the repository using the link <strong>https://github.com/saitr/Capital-Pursuit.git</strong> <br>
+Step2: Open the folder in the visual studio code or any ide. <br>
+Step3: Run the command <strong>pip3 install -r requirements.txt</strong> <br>
+Step4: Run the command <strong>python3 manage.py makemigrations</strong> <br>
+Step5: Run the command <strong>python3 manage.py makemigrations</strong> <br>
+Step6: Run the command <strong>python3 manage.py runserver</strong> <br>
