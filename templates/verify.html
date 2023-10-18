@@ -11,7 +11,14 @@
                         <div class="card-body p-5">
                             <h2 class="text-uppercase text-center mb-5">Verify OTP</h2>
 
-                            <form method="POST">
+                            <div id="loaderOverlay" class="overlay" style="display: none;">
+                                <div id="loader" class="text-center d-flex flex-column justify-content-center align-items-center">
+                                    <img src="{% static 'images/white-logo-correct.png' %}" alt="Loading..." class="loader-image">
+                                    <div class="mt-2">Loading...</div>
+                                </div>
+                            </div>
+
+                            <form id="otpVerificationForm" method="POST">
                                 {% csrf_token %}
 
                                 <div class="form-outline mb-4">
@@ -19,7 +26,7 @@
                                 </div>
 
                                 <div class="d-flex justify-content-center">
-                                    <button type="submit" class="btn btn-dark btn-block btn-lg gradient-custom-4 text-light">Verify</button>
+                                    <button id="verifyButton" type="submit" class="btn btn-dark btn-block btn-lg gradient-custom-4 text-light">Verify</button>
                                 </div>
 
                             </form>
@@ -31,4 +38,16 @@
         </div>
     </div>
 </section>
+
+<script>
+    const otpVerificationForm = document.getElementById('otpVerificationForm');
+    const loaderOverlay = document.getElementById('loaderOverlay');
+    const verifyButton = document.getElementById('verifyButton');
+
+    otpVerificationForm.addEventListener('submit', function() {
+        // Hide the verify button and show the loader
+        verifyButton.style.display = 'none';
+        loaderOverlay.style.display = 'block';
+    });
+</script>
 {% endblock %}

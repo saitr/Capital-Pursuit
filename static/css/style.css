@@ -104,3 +104,31 @@ img.sad-gif {
     padding: 1rem 1rem;
     box-shadow: 27px 35px 25px #252323;
 }
+
+.overlay {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent dark background */
+    z-index: 9999; /* Ensure it's on top of everything */
+}
+
+#loader {
+    height: 100vh; /* Ensure the loader takes up the full height of the screen */
+    color: white;
+}
+
+.loader-image {
+    width: 100px; /* Adjust the width as needed */
+    height: auto;
+}
+
+/* Optional: Add margin to the bottom */
+#loader .mt-2 {
+    margin-bottom: 20px;
+}
