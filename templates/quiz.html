@@ -30,46 +30,101 @@
 
 
  {% load static %}
- <!DOCTYPE html>
- <html>
- <head>
-   <meta charset="utf-8">
-   <title>Guess the Capitals</title>
-   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
-   <style>
-     body, html {
-       height: 100%;
-     }
-     .custom-card {
-       width: 400px;
-       margin: auto;
-       margin-top: 20%; /* Adjust this value to change the distance from the top */
-       box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-     }
-   </style>
- </head>
- <body class="d-flex justify-content-center align-items-center">
-   <div class="card text-center custom-card">
-     <div class="card-body">
-       <h1 class="card-title mb-4" id="quiz-title" style="display: none;">Guess the Capitals</h1>
-       <div id="answer-count" class="mb-3" style="display: none;">Correct Answers: 0</div>
-       <div id="question" class="mb-3" style="display: none;">
-         <p id="country-name"></p>
-         <input type="text" id="capital-input" class="form-control" placeholder="Enter capital">
-       </div>
-       <div class="d-flex justify-content-center m-3">
-         <button id="submit-button" class="btn btn-primary" onclick="submitAnswer()" style="display: none;">Submit</button>
-         <button onclick="startGame()" class="btn btn-success me-2">Start The Quiz</button>
-         <button onclick="endGame()" class="btn btn-danger ms-2" style="display: none;">End Quiz</button>
-       </div>
-     </div>
-   </div>
-   <script>
-     const countries = JSON.parse('{{ countries_json | escapejs }}');
-   </script>
-   <script src="{% static 'js/quiz.js' %}"></script>
- </body>
- </html>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Guess the Capitals</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+    <style>
+        body, html {
+            height: 100%;
+        }
+        .custom-card {
+            width: 400px;
+            margin: auto;
+            margin-top: 20%; /* Adjust this value to change the distance from the top */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body class="d-flex justify-content-center align-items-center">
+    <div class="card text-center custom-card">
+        <div class="card-body">
+            <h1 class="card-title mb-4" id="quiz-title" style="display: none;">Guess the Capitals</h1>
+            <div id="answer-count" class="mb-3" style="display: none;">Correct Answers: 0</div>
+            <div id="question" class="mb-3" style="display: none;">
+                <p id="country-name"></p>
+                <input type="text" id="capital-input" class="form-control" placeholder="Enter capital">
+            </div>
+            <div class="d-flex justify-content-center m-3">
+                <button id="submit-button" class="btn btn-primary" onclick="submitAnswer()" style="display: none;">Submit</button>
+                <button onclick="startGame()" class="btn btn-success me-2">Start The Quiz</button>
+                <button onclick="endGame()" class="btn btn-danger ms-2" style="display: none;">End Quiz</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Score Modal -->
+    <!-- Score Modal -->
+<div class="modal fade" id="scoreModal" tabindex="-1" aria-labelledby="scoreModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="scoreModalLabel">Your Score</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <p>Your score is: <span id="scoreValue"></span></p>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <a href="#" class="btn btn-primary" onclick="sendGameReport()">Send Game Report via Email</a>
+          </div>
+      </div>
+  </div>
+</div>
+
+    
+    <!-- Include Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script src="{% static 'js/quiz.js' %}"></script>
+    <script>
+       const countries = JSON.parse('{{ countries_json | escapejs }}');
+       function sendGameReport() {
+    const score = calculateScore();  // Call the function to get the score
+    // const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+    const url = `/send_game_report/${score}/`;
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            // 'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify({})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Game report sent via email successfully!');
+        } else {
+            alert('Failed to send game report via email.');
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+    </script>
+</body>
+</html>
+
+ 
+ 
+
  
  
  

@@ -23,3 +23,10 @@ class User(AbstractUser):
     class Meta:
         db_table = 'User'
 
+
+class QuizScore(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    score = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return f'Score of {self.user.username}'
