@@ -33,7 +33,7 @@ function endGame() {
 function displayQuestion() {
     if (currentQuestion < countries.length) {
         const country = countries[currentQuestion];
-        document.getElementById('country-name').innerText = 'Country: ' + country.name;
+        document.getElementById('country-name').innerText = 'What is the capital of the country: ' + country.name;
     } else {
         document.getElementById('country-name').innerText = 'Quiz completed!';
         document.getElementById('capital-input').disabled = true;
@@ -49,12 +49,21 @@ function submitAnswer() {
     const userAnswer = document.getElementById('capital-input').value.toLowerCase();
     const country = countries[currentQuestion];
     const correctAnswer = country.capital.toLowerCase();
+
     if (userAnswer === correctAnswer) {
         correctAnswers++;
         document.getElementById('answer-count').innerText = 'Correct Answers: ' + correctAnswers;
+    } else {
+        // If the answer is wrong, display the correct answer in the wrong answer modal
+        const wrongAnswerModal = new bootstrap.Modal(document.getElementById('wrongAnswerModal'));
+        document.getElementById('correctAnswer').innerText = country.capital;
+        wrongAnswerModal.show();
     }
+
     nextQuestion();
 }
+
+
 
 
 
@@ -70,29 +79,4 @@ function nextQuestion() {
     }
 }
 
-function sendScoreViaEmail() {
-    const score = parseInt(document.getElementById('scoreValue').innerText);
-    const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
-    const url = '{% url "save_score" %}';
-
-    const formData = new FormData();
-    formData.append('score', score);
-
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'X-CSRFToken': csrfToken,
-        },
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert('Score sent via email successfully!');
-        } else {
-            alert('Failed to send score via email.');
-        }
-    })
-    .catch(error => console.error('Error:', error));
-}
 

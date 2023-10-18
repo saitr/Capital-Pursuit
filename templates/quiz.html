@@ -1,61 +1,19 @@
-    <!-- {%load static%}
-    <!DOCTYPE html>
-    <html>
-    <head>
-    <meta charset="utf-8">
-    <title>Guess the Capitals</title>
-    </head>
-    <body>
-        
-    <div id="quiz-container">
-        <div id="answer-count">Correct Answers: 0</div>
-        <h1>Guess the Capitals</h1>
-        <div id="question">
-        <p id="country-name"></p>
-        <input type="text" id="capital-input" placeholder="Enter capital">
-        </div>
-        <button onclick="submitAnswer()">Submit</button>
-    </div>
-
-    <script>
-        const countries = JSON.parse('{{ countries_json | escapejs }}');
-      </script>
-      <script src="{% static 'js/quiz.js' %}"></script>
-      
-
-    </body>
-    </html>
-
- -->
 
 
+ {% extends 'base.html' %}
+
+ {% block content %}
  {% load static %}
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Guess the Capitals</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
-    <style>
-        body, html {
-            height: 100%;
-        }
-        .custom-card {
-            width: 400px;
-            margin: auto;
-            margin-top: 20%; /* Adjust this value to change the distance from the top */
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-        }
-    </style>
-</head>
+
 <body class="d-flex justify-content-center align-items-center">
     <div class="card text-center custom-card">
         <div class="card-body">
-            <h1 class="card-title mb-4" id="quiz-title" style="display: none;">Guess the Capitals</h1>
-            <div id="answer-count" class="mb-3" style="display: none;">Correct Answers: 0</div>
+            <img src="{% static 'images/logo.png' %}" alt="" class="logo">
+            <h1 class="card-title mb-4 text-decoration-underline" id="quiz-title" style="display: none;">Guess The Capitals</h1>
+            <h4 id="answer-count" class="mb-3" style="display: none;">Correct Answers: 0</h4>
             <div id="question" class="mb-3" style="display: none;">
-                <p id="country-name"></p>
+                <h3 id="country-name"></h3>
                 <input type="text" id="capital-input" class="form-control" placeholder="Enter capital">
             </div>
             <div class="d-flex justify-content-center m-3">
@@ -65,45 +23,62 @@
             </div>
         </div>
     </div>
-
-    <!-- Score Modal -->
-    <!-- Score Modal -->
-<div class="modal fade" id="scoreModal" tabindex="-1" aria-labelledby="scoreModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h5 class="modal-title" id="scoreModalLabel">Your Score</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-              <p>Your score is: <span id="scoreValue"></span></p>
-          </div>
-          <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <a href="#" class="btn btn-primary" onclick="sendGameReport()">Send Game Report via Email</a>
+    <!-- wrong answer modal  -->
+    <div class="modal fade" id="wrongAnswerModal" tabindex="-1" aria-labelledby="wrongAnswerModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="wrongAnswerModalLabel">Wrong Answer</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body d-flex flex-column align-items-center">
+                <img src="{% static 'images/sad.gif' %}" alt="" class="sad-gif">
+                <h5 class="text-center">Wrong answer! The correct answer is: <span id="correctAnswer"></span></h5>
+            </div>
+            
+              <div class="modal-footer d-flex justify-content-center">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
           </div>
       </div>
   </div>
-</div>
+  
+
+    <!-- Score Modal -->
+    <div class="modal fade" id="scoreModal" tabindex="-1" aria-labelledby="scoreModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="scoreModalLabel">Capital Pursuit</h5>
+                  <button type="button" class="btn-close btn-close-custom"  data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body text-center">
+                  <img src="{% static 'images/logo.png' %}" alt="" class="logo-modal">
+                  <h2>Your score is: <span id="scoreValue"></span></h2>
+              </div>
+              <div class="modal-footer d-flex justify-content-center">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <a href="#" class="btn btn-primary" onclick="sendGameReport()">Send Game Report via Email</a>
+              </div>
+          </div>
+      </div>
+  </div>
+    
 
     
     <!-- Include Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     
-    <script src="{% static 'js/quiz.js' %}"></script>
     <script>
        const countries = JSON.parse('{{ countries_json | escapejs }}');
+   
        function sendGameReport() {
     const score = calculateScore();  // Call the function to get the score
-    // const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
     const url = `/send_game_report/${score}/`;
 
     fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            // 'X-CSRFToken': csrfToken
         },
         body: JSON.stringify({})
     })
@@ -111,20 +86,13 @@
     .then(data => {
         if (data.success) {
             alert('Game report sent via email successfully!');
+            window.location.reload();  // Reload the page
         } else {
             alert('Failed to send game report via email.');
         }
     })
     .catch(error => console.error('Error:', error));
 }
-
     </script>
-</body>
-</html>
+{% endblock %}
 
- 
- 
-
- 
- 
- 

@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from .models import *
 from django.core.mail import send_mail
 from django.conf import settings
+from django.shortcuts import render, get_object_or_404
 
 class QuizView(View):
     def get(self, request):
@@ -78,3 +79,12 @@ def send_game_report(request, score):
 
 
 
+
+def display_scores(request, user_id):
+    # Get the user based on the user_id
+    user = get_object_or_404(User, pk=user_id)
+
+    # Get all scores for the user
+    user_scores = QuizScore.objects.filter(user=user)
+
+    return render(request, 'scores.html', {'user_scores': user_scores})

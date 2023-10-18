@@ -1,0 +1,76 @@
+body, html {
+    height: 100%;
+}
+.custom-card {
+    width: 400px;
+    margin: auto;
+    margin-top: 20%; /* Adjust this value to change the distance from the top */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+ /* Custom Styles for the Modal */
+ #scoreModal .modal-dialog {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%; /* Adjust the width if needed */
+}
+
+#scoreModal .modal-content {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+#scoreModal .modal-header {
+    background-color: #3498db;
+    color: white;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+#scoreModal .modal-body {
+    padding: 20px;
+}
+
+#scoreModal .modal-footer {
+    border: none;
+    border-radius: 15px;
+}
+img.logo-modal {
+    width: 30%;
+}
+
+#wrongAnswerModal .modal-dialog {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%; /* Adjust the width if needed */
+}
+
+#wrongAnswerModal .modal-content {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+#wrongAnswerModal .modal-header {
+    background-color: #3498db;
+    color: white;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+#wrongAnswerModal .modal-body {
+    padding: 20px;
+}
+
+#wrongAnswerModal .modal-footer {
+    border: none;
+    border-radius: 15px;
+}
+img.sad-gif {
+    width: 25%;
+}
