@@ -7,22 +7,22 @@
  {% include 'header.html' %}
 
 
-    <div class="card text-center custom-card">
-        <div class="card-body">
-            <img src="{% static 'images/logo.png' %}" alt="" class="logo">
-            <h1 class="card-title mb-4 text-decoration-underline" id="quiz-title" style="display: none;">Guess The Capitals</h1>
-            <h4 id="answer-count" class="mb-3" style="display: none;">Correct Answers: 0</h4>
-            <div id="question" class="mb-3" style="display: none;">
-                <h3 id="country-name"></h3>
-                <input type="text" id="capital-input" class="form-control" placeholder="Enter capital">
-            </div>
-            <div class="d-flex justify-content-center m-3">
-                <button id="submit-button" class="btn btn-primary" onclick="submitAnswer()" style="display: none;">Submit</button>
-                <button onclick="startGame()" class="btn btn-success me-2">Start The Quiz</button>
-                <button onclick="endGame()" class="btn btn-danger ms-2" style="display: none;">End Quiz</button>
-            </div>
+ <div class="card text-center custom-card">
+    <div class="card-body">
+        <img src="{% static 'images/logo.png' %}" alt="" class="logo">
+        <h1 class="card-title mb-4 text-decoration-underline" id="quiz-title" style="display: none;">Guess The Capitals</h1>
+        <h4 id="answer-count" class="mb-3" style="display: none;">Correct Answers: 0</h4>
+        <div id="question" class="mb-3" style="display: none;">
+            <h4 id="country-name"></h4>
+            <input type="text" id="capital-input" class="form-control" placeholder="Enter capital">
+        </div>
+        <div class="d-flex justify-content-center m-3">
+            <button id="submit-button" class="btn btn-primary" onclick="submitAnswer()" style="display: none;">Submit</button>
+            <button onclick="startGame()" class="btn btn-success me-2">Start The Quiz</button>
+            <button onclick="endGame()" class="btn btn-danger ms-2" style="display: none;">End Quiz</button>
         </div>
     </div>
+</div>
     <!-- wrong answer modal  -->
     <div class="modal fade" id="wrongAnswerModal" tabindex="-1" aria-labelledby="wrongAnswerModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
@@ -50,21 +50,24 @@
           <div class="modal-content">
               <div class="modal-header">
                   <h5 class="modal-title" id="scoreModalLabel">Capital Pursuit</h5>
-                  <button type="button" class="btn-close btn-close-custom"  data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body text-center">
                   <img src="{% static 'images/logo.png' %}" alt="" class="logo-modal">
                   <h2>Your score is: <span id="scoreValue"></span></h2>
               </div>
               <div class="modal-footer d-flex justify-content-center">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                   <a href="#" class="btn btn-primary" onclick="sendGameReport()">Send Game Report via Email</a>
               </div>
           </div>
       </div>
   </div>
     
-
+  <div id="loaderOverlay" class="overlay" style="display: none;">
+    <div id="loader" class="text-center d-flex flex-column justify-content-center align-items-center">
+        <img src="{% static 'images/white-logo-correct.png' %}" alt="Loading..." class="loader-image">
+        <div class="mt-2">Loading...</div>
+    </div>
+</div>
     
     <!-- Include Bootstrap JS -->
     
@@ -72,27 +75,39 @@
        const countries = JSON.parse('{{ countries_json | escapejs }}');
    
        function sendGameReport() {
-    const score = calculateScore();  // Call the function to get the score
-    const url = `/send_game_report/${score}/`;
+        const score = calculateScore();
+        const url = `/send_game_report/${score}/`;
+        const loaderOverlay = document.getElementById('loaderOverlay');
+        const modalFooter = document.querySelector('#scoreModal .modal-footer');
+        const sendButton = modalFooter.querySelector('.btn-primary');
 
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({})
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert('Game report sent via email successfully!');
-            window.location.reload();  // Reload the page
-        } else {
-            alert('Failed to send game report via email.');
-        }
-    })
-    .catch(error => console.error('Error:', error));
-}
+        // Hide the send button and show the loader
+        sendButton.style.display = 'none';
+        loaderOverlay.style.display = 'flex';
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({})
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Game report sent via email successfully!');
+                window.location.reload();  // Reload the page
+            } else {
+                alert('Failed to send game report via email.');
+            }
+        })
+        .catch(error => console.error('Error:', error))
+        .finally(() => {
+            // Hide the loader and show the send button again
+            sendButton.style.display = 'block';
+            loaderOverlay.style.display = 'none';
+        });
+    }
     </script>
 {% endblock %}
 

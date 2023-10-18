@@ -7,13 +7,17 @@
     <a class="navbar-brand" href="{% url 'quiz' %}">
       <img class="header-logo" src="{% static 'images/white-logo-correct.png' %}" alt="">
     </a>
-    <div class="btns">
-      
-      <a href="{% url 'display_scores' user_id=user.id %}">
+    
+    <div class="btns d-flex align-items-center justify-content-between">
+      <a href="{% url 'quiz' %}" class="me-4">
+        <i class="bi bi-house-door-fill display-5 text-light"></i>
+      </a>
+      <a href="{% url 'display_scores' user_id=user.id %}" class="me-4">
         <button class="btn btn-light">Check Scores</button>
     </a>
+    
     <a href="{% url 'logout' %}">
-      <button class="btn btn-light">Logout</button>
+      <i class="bi bi-box-arrow-left text-light fw-bolder display-5"></i>
     </a>
     </div>
   </div>

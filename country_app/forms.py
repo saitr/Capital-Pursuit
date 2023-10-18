@@ -8,6 +8,12 @@ class SignUpForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control form-control-lg','placeholder': 'Enter The Password'}))
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control form-control-lg','placeholder': 'Enter Your Email'}))
 
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("This email is already in use. Please use a different email.")
+        return email
+
     class Meta:
         model = User
         fields = ('username','password', 'email')

@@ -2,14 +2,14 @@ from django.conf import settings
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.shortcuts import render, redirect
 from django.utils.crypto import get_random_string
-# form imports 
 from .forms import SignUpForm,VerifyOTPForm,SignInForm
 from .models import *
-from django.contrib.auth import authenticate, login,logout
+from django.contrib.auth import login,logout
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.core.mail import send_mail
+from django.contrib.auth.hashers import check_password
 
 # Your imports...
 
@@ -25,7 +25,7 @@ def signup(request):
                 return render(request, 'signup.html', {'form': form})
 
 
-            # Generate OTP and save it to user model
+            when the user register for the first time otp shoul
             otp = get_random_string(length=6, allowed_chars='1234567890')
             user = User.objects.create_user(
                 username=username,
@@ -79,12 +79,9 @@ def verify(request, email):
                 msg.attach_alternative(html_content, 'text/html')
                 msg.send()
 
-                # Authenticate and log in the user
                 
                 login(request,user)
-                
-
-                
+                ##### printed this just for my confirmation #########
                 if login:
                     print('successfully logged in')
                 else:
@@ -106,7 +103,6 @@ def verify(request, email):
 ######## Signin ###############
 
 
-from django.contrib.auth.hashers import check_password
 
 def signin(request):
     if request.method == 'POST':
@@ -115,30 +111,27 @@ def signin(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
 
-            # Check if the input is a valid phone number
             if (email):
-                # If it's a valid phone number, authenticate using phone number
                 try:
                     user = User.objects.get(email=email)
                 except User.DoesNotExist:
                     form.add_error('email', 'Incorrect email or password')
                     return render(request, 'signin.html', {'form': form})
             else:
-                # If it's not a valid phone number, authenticate using username
                 try:
                     user = User.objects.get(email=email)
                 except User.DoesNotExist:
                     form.add_error('email', 'Incorrect email or password')
                     return render(request, 'signin.html', {'form': form})
+            
+            # The check_password method is basically used to decode the hashed password that is saved in the table
 
-            # Use check_password to validate the password
             if not check_password(password, user.password):
                 form.add_error('email', 'Incorrect email or password')
                 return render(request, 'signin.html', {'form': form})
 
             login(request, user)
 
-            # Delete any existing tokens for the user
 
             user.save()
 

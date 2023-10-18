@@ -23,23 +23,21 @@
                                 {% csrf_token %}
 
                                 <div class="form-outline mb-4">
-                                    <div class="error-message" style="color:red">
-                                        {{ form.password.errors }}
-                                    </div>
+                                    
                                     {{ form.username }}
                                 </div>
                                 
                                 <div class="form-outline mb-4">
-                                    <div class="error-message" style="color:red">
-                                        {{ form.password.errors }}
+                                    <div class="error-message" style="color: red">
+                                        {% for error in form.email.errors %}
+                                            {{ error }}
+                                        {% endfor %}
                                     </div>
                                     {{ form.email }}
                                 </div>
                                 
                                 <div class="form-outline mb-4">
-                                    <div class="error-message" style="color:red">
-                                        {{ form.password.errors }}
-                                    </div>
+                                    
                                     {{ form.password }}
                                 </div>
                                 <div class="d-flex justify-content-center">
