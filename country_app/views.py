@@ -7,8 +7,11 @@ from .models import *
 from django.core.mail import send_mail
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404
-
+from django.contrib.auth.decorators import login_required 
+from django.utils.decorators import method_decorator
 class QuizView(View):
+    @method_decorator(login_required(login_url='/signin/'))  
+
     def get(self, request):
         # Fetch country data from the API
         api_url = "https://countriesnow.space/api/v0.1/countries/capital"
@@ -53,6 +56,9 @@ from django.http import JsonResponse
 from django.core.mail import send_mail
 from django.conf import settings
 from .models import QuizScore  # Import the QuizScore model
+from django.template.loader import render_to_string
+from django.core.mail import EmailMessage
+@login_required(login_url='/signin/')  
 
 @csrf_exempt
 def send_game_report(request, score):
@@ -65,12 +71,23 @@ def send_game_report(request, score):
         quiz_score.score = score
         quiz_score.save()
 
-        # Your email sending logic here
+        # Prepare the context to be used in the email template
+        context = {
+            'username': user.username,
+            'score': score,
+            'date': quiz_score.created_at,  # Assuming you have a 'created_at' field in your model
+        }
+
+        # Render the template with the context
+        email_content = render_to_string('game_report.html', context)
+
+        # Send the email
         subject = 'Game Report'
-        message = f'Game report for user {user.username}. Score: {score}'
         from_email = settings.DEFAULT_FROM_EMAIL
         to_email = [user.email]
-        send_mail(subject, message, from_email, to_email, fail_silently=False)
+        email = EmailMessage(subject, email_content, from_email, to_email)
+        email.content_subtype = 'html'  # Use HTML for the email content
+        email.send()
 
         return JsonResponse({'success': True, 'message': 'Game report sent successfully.'})
 
@@ -79,6 +96,8 @@ def send_game_report(request, score):
 
 
 
+
+@login_required(login_url='/signin/')  
 
 def display_scores(request, user_id):
     # Get the user based on the user_id

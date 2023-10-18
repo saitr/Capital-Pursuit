@@ -74,3 +74,33 @@ img.logo-modal {
 img.sad-gif {
     width: 25%;
 }
+
+.custom-table {
+    width: 50%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    
+  }
+
+  .custom-table th, .custom-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  .custom-table th {
+    background-color: #f2f2f2;
+  }
+
+  .custom-table th, .custom-table td {
+    text-align: center;
+  }
+
+  .header-logo {
+    width: 50%;
+  }
+
+  .card-body {
+    flex: 1 1 auto;
+    padding: 1rem 1rem;
+    box-shadow: 27px 35px 25px #252323;
+}

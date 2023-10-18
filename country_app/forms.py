@@ -16,8 +16,8 @@ class SignUpForm(forms.ModelForm):
 
 
 class SignInForm(forms.Form):
-    email= forms.CharField(widget=forms.TextInput(attrs={'class': 'input--style-2', 'placeholder': 'Email'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'input--style-2','placeholder': 'Password'}))
+    email= forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control form-control-lg', 'placeholder': 'Email'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control form-control-lg','placeholder': 'Password'}))
     class Meta:
         model = User
         fields = ('email', 'password')

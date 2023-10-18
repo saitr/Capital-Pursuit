@@ -103,3 +103,63 @@ def verify(request, email):
     return render(request, 'verify.html', {'form': form})
 
 
+######## Signin ###############
+
+
+from django.contrib.auth.hashers import check_password
+
+def signin(request):
+    if request.method == 'POST':
+        form = SignInForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+
+            # Check if the input is a valid phone number
+            if (email):
+                # If it's a valid phone number, authenticate using phone number
+                try:
+                    user = User.objects.get(email=email)
+                except User.DoesNotExist:
+                    form.add_error('email', 'Incorrect email or password')
+                    return render(request, 'signin.html', {'form': form})
+            else:
+                # If it's not a valid phone number, authenticate using username
+                try:
+                    user = User.objects.get(email=email)
+                except User.DoesNotExist:
+                    form.add_error('email', 'Incorrect email or password')
+                    return render(request, 'signin.html', {'form': form})
+
+            # Use check_password to validate the password
+            if not check_password(password, user.password):
+                form.add_error('email', 'Incorrect email or password')
+                return render(request, 'signin.html', {'form': form})
+
+            login(request, user)
+
+            # Delete any existing tokens for the user
+
+            user.save()
+
+            return redirect('quiz')
+
+    else:
+        form = SignInForm()
+
+    return render(request, 'signin.html', {'form': form})
+
+
+
+#### logout user #####
+
+
+def logout_user(request):
+    if request.user.is_authenticated:
+        user = request.user
+        # user.token = None
+        # print('thisi sit',user.token)
+        # user.is_logged_in = False
+        user.save()
+        logout(request)
+    return redirect('signin')

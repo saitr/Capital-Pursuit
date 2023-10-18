@@ -24,7 +24,7 @@ class User(AbstractUser):
         db_table = 'User'
 
 
-class QuizScore(models.Model):
+class QuizScore(Common):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     score = models.PositiveIntegerField(default=0)
 

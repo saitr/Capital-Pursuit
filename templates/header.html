@@ -2,12 +2,22 @@
 {% block content %}
 {% load static %}
 
-<nav class="navbar navbar-light bg-light">
-    <div class="container">
-      <a class="navbar-brand" href="#">
-        <img src="{% static 'images/logo.png'%}" alt="" width="30" height="24">
-      </a>
+<nav class="navbar">
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'quiz' %}">
+      <img class="header-logo" src="{% static 'images/white-logo-correct.png' %}" alt="">
+    </a>
+    <div class="btns">
+      
+      <a href="{% url 'display_scores' user_id=user.id %}">
+        <button class="btn btn-light">Check Scores</button>
+    </a>
+    <a href="{% url 'logout' %}">
+      <button class="btn btn-light">Logout</button>
+    </a>
     </div>
-  </nav>
+  </div>
+  
+</nav>
 
 {% endblock %}
