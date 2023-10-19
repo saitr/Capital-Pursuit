@@ -7,7 +7,7 @@ I'm happy to share the deployed link of the project. You can access it here: <st
 you to see the features and functionalities of the project, as well as provide the feedback and suggestions for imporvement.I hope you enjoy exploring the project and find it useful and informative. 
 
 ## Note: 
-The project is hosted on replit's free plan, which may cause some initial delay in loading. We apologize for any inconvenience and appreciate your patience.)
+The project is hosted on replit's free plan, which may cause some initial delay in loading. We apologize for any inconvenience and appreciate your patience :).
 
 ## Screenshot: 
 Screen shot of the homepage.
