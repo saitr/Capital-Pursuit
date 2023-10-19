@@ -10,7 +10,7 @@ you to see the features and functionalities of the project, as well as provide t
 The project is hosted on replit's free plan, which may cause some initial delay in loading. We apologize for any inconvenience and appreciate your patience :).
 
 ## Screenshot: 
-Screen shot of the homepage.
+Screenshot of the homepage.
 ![Screenshot from 2023-10-18 16-40-10](https://github.com/saitr/Capital-Pursuit/assets/64057564/04bc369e-c13d-41c1-b3b3-1bd0bccf6df7)
 
 ## Steps for installation 
